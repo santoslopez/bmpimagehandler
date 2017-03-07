@@ -23,7 +23,7 @@ public class BMPImageHandler{
             }else{
               System.out.println(imagenInvalida);
             }
-          }else if(args[0].equals(rotate)&&(args[1].equals(args[1]))){
+          }else if(args[0].equals(args[0])&&(args[1].equals(args[1]))){
             File imagen = new File(args[1]);
             if(imagen.exists()){
               System.out.println(mensajeEspera);
