@@ -1,49 +1,44 @@
+import java.io.File;
 import java.util.Scanner;
 public class BMPImageHandler{
-  //el texto es parte del comando que se debe ejecutar
-  private static String javaBMPImageHandler = "java BMPImageHandler";
-  private static BMPImageHandler instance;
-  private static String extension = ".bmp";//formato de la imagen a trabajar
-  private static String formatIncorrect = "El formato de la imagen no es .bmp.";
-  public synchronized static BMPImageHandler getInstancia(){
-    if(instance==null){
-      instance=new BMPImageHandler();
-    }
-    return instance;
-  }
 
+  private static String error = "No se encontro ningun parametro";
+  private static String basics = "-basics";
+  private static String rotate = "-rotate";
+  private static String mensajeEspera = "Espere un momento";
+  private static String imagenInvalida = "La imagen no se encontro";
+  private static String parametrosIncorrectos = "Los parametros son mas de lo esperado";
+  private static String comandoInvalido = "El comando es invalido";
   public static void main(String[] args){
-    Scanner scanner=new Scanner(System.in);
-    String command = scanner.nextLine();
-    String longitudComando = String.valueOf(command.length());
-    int longitudCmd = command.length();
-    String imagen = command.substring(29,Integer.parseInt(longitudComando));
-    String image = command.substring(29,longitudCmd-4);//obtengo solo el nombre de la imagen, en la posicion 29 empieza el nombre del archivo a procesar
-    String extension = command.substring(longitudCmd-4,longitudCmd);//obtengo el formato de la imagen
     try{
-      if(command.equals(javaBMPImageHandler+" -basics "+imagen)){
-        if(extension.equals(extension)){
-          System.out.println("Espere un momento...");
-          BmpHandlerCore.getInstancia().filter(imagen);
-          BMPToGrayscale.getInstancia().filter(imagen);
-          BmpHandlerRotator b = new BmpHandlerRotator();
-          b.rotateImage(imagen);
-        }else{
-          System.out.println(formatIncorrect);
-        }
-
-      }else if(command.equals(javaBMPImageHandler+" -rotate "+imagen)){
-        if(extension.equals(extension)){
-          BmpHandlerRotator.getInstancia().rotateImage(imagen);
-        }else{
-          System.out.println(formatIncorrect);
-        }
+      int parametros=args.length;
+      if(parametros==0){
+        System.out.println(error);
+      }else if((parametros>=1)&&(parametros<=2)){
+          if(args[0].equals("-basics")&&(args[1].equals(args[1]))){
+            File file = new File(args[1]);
+            if(file.exists()){//verificamos si la imagen existe en el proyecto
+              System.out.println(mensajeEspera);
+              BmpHandlerCore.getInstancia().filter(args[1]);
+            }else{
+              System.out.println(imagenInvalida);
+            }
+          }else if(args[0].equals(rotate)&&(args[1].equals(args[1]))){
+            File imagen = new File(args[1]);
+            if(imagen.exists()){
+              System.out.println(mensajeEspera);
+              BmpHandlerRotator.getInstancia().rotateImage(args[1]);
+            }else{
+              System.out.println(imagenInvalida);
+            }
+          }else{
+            System.out.println(comandoInvalido);
+          }
       }else{
-        System.out.println("Command invalid");
+        System.out.println(parametrosIncorrectos);
       }
     }catch(Exception ex){
       ex.printStackTrace();
-    }finally{
     }
   }
 }
