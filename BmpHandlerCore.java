@@ -64,9 +64,9 @@ public class BmpHandlerCore{
             width = (((int)header[21]&0xff)<<24)|(((int)header[20]&0xff)<<16)|(((int)header[19]&0xff)<<8)|(((int)header[18]&0xff));
             height = (((int)header[25]&0xff)<<24)|(((int)header[24]&0xff)<<16)| (((int)header[23]&0xff)<<8)|(((int)header[22]&0xff));
             if( (getWidth()==640)&((getHeight())==480)){
-              blue=new byte[height][width];
-              green=new byte[height][width];
               red=new byte[height][width];
+              green=new byte[height][width];
+              blue=new byte[height][width];
               for(int h=0;h<height;h++){
                 for(int w=0;w<width;w++){
                   red[h][w]=(byte)fileInputStream.read();
